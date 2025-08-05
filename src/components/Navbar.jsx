@@ -8,9 +8,11 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-     fetch('https://dummyjson.com/products?limit=100')
+    fetch('https://dummyjson.com/products?limit=100')
       .then(res => res.json())
       .then(data => setProducts(data.products));
   }, []);
@@ -28,12 +30,29 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow p-4 font-poppins relative">
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-blue-800">
-          MyShop
-        </Link>
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between flex-wrap">
+        {/* Left Section - Logo + Nav Links */}
+        <div className="flex items-center justify-center gap-8">
+          <Link to="/" className="text-xl font-bold text-blue-800">
+            MyShop
+          </Link>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-blue-800 focus:outline-none"
+          >
+            ☰
+          </button>
+        </div>
 
-        <div className="relative w-full max-w-md mx-4">
+        <div className={`w-full md:flex md:items-center md:gap-6 md:w-auto ${menuOpen ? 'block' : 'hidden'}`}>
+          <div className="flex flex-col md:flex-row gap-4 text-gray-700 font-medium mt-4 md:mt-0">
+            <Link to="/" className="hover:text-blue-800">Home</Link>
+            <Link to="/products" className="hover:text-blue-800">Products</Link>
+          </div>
+        </div>
+
+        {/* Center Section - Search */}
+        <div className="relative  max-w-sm sm:w-full sm:max-w-md mx-4 mt-4 md:mt-0">
           <input
             type="text"
             placeholder="Search products..."
@@ -68,7 +87,8 @@ export default function Navbar() {
           )}
         </div>
 
-        <div className="flex items-center gap-6">
+        {/* Right Section - Cart & Account */}
+        <div className="flex items-center gap-6 relative mt-4 md:mt-0">
           <Link to="/cart" className="relative">
             <ShoppingCart className="text-blue-800" />
             {cartItems.length > 0 && (
@@ -78,9 +98,32 @@ export default function Navbar() {
             )}
           </Link>
 
-          <Link to="/account" className="text-blue-800 hover:text-blue-600">
-            <User2 />
-          </Link>
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="text-blue-800 hover:text-blue-600 focus:outline-none"
+            >
+              <User2 />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
+                <Link
+                  to="/login"
+                  onClick={() => setDropdownOpen(false)}
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setDropdownOpen(false)}
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

@@ -59,12 +59,13 @@ export default function ProductPage() {
         />
         <select onChange={(e) => setCategory(e.target.value)} value={category} className="w-full border p-2 rounded">
           <option value="">All Categories</option>
-          <option value="smartphones">Smartphones</option>
-          <option value="laptops">Laptops</option>
           <option value="fragrances">Fragrances</option>
-          <option value="skincare">Skincare</option>
+          <option value="mens-watches">Mens Watches</option>
           <option value="groceries">Groceries</option>
           <option value="home-decoration">Home Decoration</option>
+          <option value="furniture">Furniture</option>
+          <option value="tops">Tops</option>
+          <option value="motorcycle">motorcycle</option>
         </select>
         <input
           type="text"
