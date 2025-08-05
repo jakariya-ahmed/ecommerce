@@ -20,7 +20,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-8 font-poppins">
+    <div className="max-w-screen-xl mx-auto p-8 font-poppins">
       <h2 className="text-2xl font-semibold mb-6">Your Cart</h2>
 
       <div className="grid gap-6">
@@ -30,7 +30,7 @@ export default function CartPage() {
             className="flex flex-col sm:flex-row items-center bg-white shadow rounded-lg p-4"
           >
             <img
-              src={item.image}
+               src={item.thumbnail || item.images?.[0] || 'https://via.placeholder.com/150'}
               alt={item.title}
               className="w-24 h-24 object-contain mr-4"
             />

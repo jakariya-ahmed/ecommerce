@@ -17,11 +17,14 @@ export default function ProductPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const endpoint = 'https://fakestoreapi.com/products';
-        const res = await fetch(endpoint);
-        const data = await res.json();
+        const res = await fetch('https://dummyjson.com/products?limit=100');
+        const json = await res.json();
+        const data = json.products.map(p => ({ ...p, image: p.thumbnail || p.images?.[0] || '' }));
         setProducts(data);
-        setCategory(decodeURIComponent(categoryParam || ''));
+        setFilteredProducts(data);
+        if (categoryParam) {
+          setCategory(decodeURIComponent(categoryParam));
+        }
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -33,15 +36,15 @@ export default function ProductPage() {
   useEffect(() => {
     const filtered = products.filter(product => {
       const inCategory = category ? product.category === category : true;
-      const inBrand = brand ? product.title.toLowerCase().includes(brand.toLowerCase()) : true;
+      const inBrand = brand ? product.brand.toLowerCase().includes(brand.toLowerCase()) : true;
       const inColor = color ? product.title.toLowerCase().includes(color.toLowerCase()) : true;
       const inSearch = product.title.toLowerCase().includes(search.toLowerCase());
-      const inRating = rating ? product.rating?.rate >= parseFloat(rating) : true;
+      const inRating = rating ? product.rating >= parseFloat(rating) : true;
       const inPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       return inCategory && inBrand && inColor && inSearch && inRating && inPrice;
     });
     setFilteredProducts(filtered);
-  }, [search, brand, color, rating, priceRange, category, products]);
+  }, [search, category, brand, color, rating, priceRange, products]);
 
   return (
     <div className="flex flex-col lg:flex-row p-6 gap-6 font-poppins">
@@ -56,10 +59,12 @@ export default function ProductPage() {
         />
         <select onChange={(e) => setCategory(e.target.value)} value={category} className="w-full border p-2 rounded">
           <option value="">All Categories</option>
-          <option value="men's clothing">Men's Clothing</option>
-          <option value="women's clothing">Women's Clothing</option>
-          <option value="jewelery">Jewelery</option>
-          <option value="electronics">Electronics</option>
+          <option value="smartphones">Smartphones</option>
+          <option value="laptops">Laptops</option>
+          <option value="fragrances">Fragrances</option>
+          <option value="skincare">Skincare</option>
+          <option value="groceries">Groceries</option>
+          <option value="home-decoration">Home Decoration</option>
         </select>
         <input
           type="text"

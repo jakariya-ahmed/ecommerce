@@ -75,7 +75,7 @@ export default function HeroSlider() {
               </p>
               <Link
                 to={slide.link}
-                className="px-6 py-2 bg-primary text-white rounded hover:bg-blue-800 transition animate-slide-up delay-200"
+                className="px-6 py-2 bg-blue-800 text-white rounded hover:bg-orange-500 transition animate-slide-up delay-200"
               >
                 Shop Now
               </Link>

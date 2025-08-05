@@ -1,80 +1,86 @@
-import { NavLink } from 'react-router-dom';
-import { ShoppingCart, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Search, ShoppingCart, User2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export default function Navbar() {
   const { cartItems } = useCart();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  useEffect(() => {
+     fetch('https://dummyjson.com/products?limit=100')
+      .then(res => res.json())
+      .then(data => setProducts(data.products));
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.trim() !== '') {
+      const filtered = products.filter(product =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts([]);
+    }
+  }, [searchTerm, products]);
 
   return (
-    <nav className="bg-primary text-white font-poppins shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="bg-white shadow p-4 font-poppins relative">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between">
+        <Link to="/" className="text-xl font-bold text-blue-800">
+          MyShop
+        </Link>
 
-          {/* Left - Logo */}
-          <div className="flex-shrink-0 text-xl font-bold">
-            <NavLink to="/">MyShop</NavLink>
-          </div>
+        <div className="relative w-full max-w-md mx-4">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border rounded pl-10 pr-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+          />
+          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
 
-          {/* Center - Menu + Search */}
-          <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10 px-4">
-            {/* Menu Links */}
-            <div className="flex gap-6 text-sm md:text-base">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? 'font-bold underline' : 'hover:underline'
-                }
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/product"
-                className={({ isActive }) =>
-                  isActive ? 'font-bold underline' : 'hover:underline'
-                }
-              >
-                Product
-              </NavLink>
-              <NavLink
-                to="/cart"
-                className={({ isActive }) =>
-                  isActive ? 'font-bold underline' : 'hover:underline'
-                }
-              >
-                Cart
-              </NavLink>
+          {/* Search Result Dropdown */}
+          {filteredProducts.length > 0 && (
+            <div className="absolute top-12 left-0 w-full bg-white border rounded shadow z-50 max-h-96 overflow-y-auto">
+              {filteredProducts.map(product => (
+                <Link
+                  onClick={() => setFilteredProducts([])}
+                  to={`/product/${product.id}`}
+                  key={product.id}
+                  className="flex items-center gap-4 p-3 hover:bg-gray-100 border-b"
+                >
+                  <img
+                    src={product.thumbnail || (product.images?.[0] ?? '/placeholder.jpg')}
+                    alt={product.title}
+                    className="w-12 h-12 object-contain"
+                  />
+                  <div>
+                    <p className="text-sm font-medium line-clamp-1">{product.title}</p>
+                    <p className="text-xs text-gray-500">${product.price}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
+          )}
+        </div>
 
-            {/* Search */}
-            <div className="w-full max-w-md relative hidden md:block">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="w-full py-2 pl-4 pr-10 rounded-md text-black focus:outline-none"
-              />
-              <Search className="absolute right-3 top-2.5 text-gray-500" size={20} />
-            </div>
-          </div>
+        <div className="flex items-center gap-6">
+          <Link to="/cart" className="relative">
+            <ShoppingCart className="text-blue-800" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1.5 text-xs">
+                {cartItems.length}
+              </span>
+            )}
+          </Link>
 
-          {/* Right - Cart Icon & Avatar */}
-          <div className="flex items-center space-x-4">
-            <NavLink to="/cart" className="relative">
-              <ShoppingCart className="w-6 h-6" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold px-1.5 py-0.5 rounded-full">
-                  {totalItems}
-                </span>
-              )}
-            </NavLink>
-            <img
-              src="https://i.pravatar.cc/40"
-              alt="User"
-              className="w-8 h-8 rounded-full border-2 border-white"
-            />
-          </div>
-
+          <Link to="/account" className="text-blue-800 hover:text-blue-600">
+            <User2 />
+          </Link>
         </div>
       </div>
     </nav>

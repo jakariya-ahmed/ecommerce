@@ -6,9 +6,9 @@ export default function FeaturedProducts() {
   const [featured, setFeatured] = useState([]);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=12') // Limit to 12 featured items
+    fetch('https://dummyjson.com/products?limit=12') // Limit to 12 featured items
       .then(res => res.json())
-      .then(data => setFeatured(data))
+      .then(data => setFeatured(data.products))
       .catch(err => console.error('Failed to fetch featured products:', err));
   }, []);
 

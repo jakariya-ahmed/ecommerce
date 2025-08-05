@@ -6,11 +6,11 @@ export default function TrendingProducts() {
   const [trending, setTrending] = useState([]);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
+    fetch('https://dummyjson.com/products?limit=100')
       .then(res => res.json())
       .then(data => {
-        const trendingItems = data.filter(product => product.rating?.rate >= 4.5);
-        setTrending(trendingItems);
+        const trendingItems = data.products.filter(product => product.rating >= 4.5);
+        setTrending(trendingItems.slice(0, 8)); // show top 8 trending
       })
       .catch(err => console.error('Failed to fetch trending products:', err));
   }, []);

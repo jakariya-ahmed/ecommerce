@@ -5,7 +5,7 @@ import Cart from '../pages/Cart';
 import CheckoutPage from '../pages/Checkout';
 import OrderSuccess from '../pages/OrderSuccess';
 import NotFound from '../pages/NotFound';
-
+import SingleProductPage from '../pages/SingleProductPage'; //
 
 
 export default function AppRoutes() {
@@ -18,7 +18,7 @@ export default function AppRoutes() {
       <Route path="/order-success" element={<OrderSuccess />} />
       <Route path="*" element={<NotFound />} /> 
       <Route path="/products/:category" element={<Product />} />
-      
+      <Route path="/product/:id" element={<SingleProductPage />} />
 
     </Routes>
   );

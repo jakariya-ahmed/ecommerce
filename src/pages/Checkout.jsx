@@ -38,7 +38,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 font-poppins">
+    <div className="max-w-screen-xl mx-auto p-6 font-poppins">
       <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
 
       {/* Order Summary */}
@@ -48,7 +48,7 @@ export default function CheckoutPage() {
           {cartItems.map((item) => (
             <li key={item.id} className="flex items-center gap-4">
               <img
-                src={item.image}
+                 src={item.thumbnail || item.images?.[0] || 'https://via.placeholder.com/150'}
                 alt={item.title}
                 className="w-16 h-16 object-contain border rounded"
               />
