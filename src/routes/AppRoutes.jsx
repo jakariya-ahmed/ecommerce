@@ -6,6 +6,8 @@ import CheckoutPage from '../pages/Checkout';
 import OrderSuccess from '../pages/OrderSuccess';
 import NotFound from '../pages/NotFound';
 import SingleProductPage from '../pages/SingleProductPage'; //
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 
 export default function AppRoutes() {
@@ -19,7 +21,8 @@ export default function AppRoutes() {
       <Route path="*" element={<NotFound />} /> 
       <Route path="/products/:category" element={<Product />} />
       <Route path="/product/:id" element={<SingleProductPage />} />
-
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
     </Routes>
   );
 }
