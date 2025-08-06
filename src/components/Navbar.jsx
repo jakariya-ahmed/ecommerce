@@ -34,7 +34,7 @@ export default function Navbar() {
         {/* Left Section - Logo + Nav Links */}
         <div className="flex items-center justify-center gap-8">
           <Link to="/" className="text-xl font-bold text-blue-800">
-            MyShop
+            LightShop
           </Link>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
