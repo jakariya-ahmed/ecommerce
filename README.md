@@ -90,7 +90,7 @@ Password: 0lelplR
 
 ## 📸 Screenshots
 #Home Page
-<img width="1394" height="auto" alt="Image" src="https://github.com/user-attachments/assets/0f5c173c-c37a-4ac5-b44a-334392daa889" />
+<img width="1394" height="auto" alt="Image" src="public/ss/Light-Shop-Home-Page.png" />
 > _You can add screenshots of home page, product page, cart, login, etc._
 
 ---
