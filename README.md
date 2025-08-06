@@ -90,7 +90,7 @@ Password: 0lelplR
 
 ## 📸 Screenshots
 #Home Page
-![Alt text](https://www.awesomescreenshot.com/image/55828629?key=0226ca5fed80782fd3b5d578d996889d)
+<img src="https://www.awesomescreenshot.com/image/55828629?key=0226ca5fed80782fd3b5d578d996889d" width="600"/>
 > _You can add screenshots of home page, product page, cart, login, etc._
 
 ---
